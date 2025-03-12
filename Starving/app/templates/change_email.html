@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% import "bootstrap_wtf.html" as wtf %}
+
+{% block content %}
+    <h1 class="fs-2 display-2--intro">Private</h1><br><br>
+    Change your email address
+    <div class="container">
+        {{ wtf.quick_form(form, action="", method="post", id="", novalidate=True, autofocus=False) }}
+    </div>
+{% endblock %}
