@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import re
 from selenium import webdriver
+import undetected_chromedriver as uc
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -16,11 +18,20 @@ from nltk.tokenize import sent_tokenize
 def setup_driver(postcode):
     postcode = 'L1 4TW'
     url = f'https://deliveroo.co.uk/restaurants/london/westminster?postcode={postcode}&collection=all-restaurants'
-    chrome_driver_path = Service(r'/Users/leonidas/chromedriver-mac-arm64/chromedriver')
+    # AWS path:
+    chrome_driver_path = r'/usr/bin/google-chrome'
+    # Local path:
+    # chrome_driver_path = Service(r'/Users/leonidas/chromedriver-mac-arm64/chromedriver')
     initial_load_time = 0.1
     scroll_pause_time = 0.0001
 
-    driver = webdriver.Chrome(service=chrome_driver_path)
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+    driver = uc.Chrome(options=options, service=chrome_driver_path)
     driver.get(url)
     time.sleep(initial_load_time)
     screen_height = driver.execute_script('return window.screen.height;')
