@@ -17,15 +17,15 @@ from nltk.tokenize import sent_tokenize
 
 
 def setup_driver(postcode):
-    print("POSTCODE: ", postcode)
+    # print("POSTCODE: ", postcode)
     # if not postcode:
     #     print("Please enter a valid postcode.")
     #     return
     url = f'https://deliveroo.co.uk/restaurants/london/westminster?postcode={postcode}&collection=all-restaurants'
     # AWS path:
-    # chrome_driver_path = r'/usr/bin/chromedriver'
+    chrome_driver_path = Service(r'/usr/bin/chromedriver')
     # Local path:
-    chrome_driver_path = Service(r'/Users/leonidas/chromedriver-mac-arm64/chromedriver')
+    # chrome_driver_path = Service(r'/Users/leonidas/chromedriver-mac-arm64/chromedriver')
     initial_load_time = 0.1
     scroll_pause_time = 0.0001
 
