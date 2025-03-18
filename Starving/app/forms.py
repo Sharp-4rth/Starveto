@@ -57,6 +57,7 @@ class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), password_policy])
     confirm = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    postal = StringField('Postal Code', validators=[DataRequired()])
     submit = SubmitField('Register')
 
     def validate_username(form, field):
@@ -69,3 +70,8 @@ class RegisterForm(FlaskForm):
         if db.session.scalar(q):
             raise ValidationError("Email address already taken, please choose another")
 
+    def validate_postal(form, field):
+        postcode = form.postal.data
+        if not len("".join(postcode.strip().split(" "))) >= 5:
+            print(postcode)
+            raise ValidationError("Please enter a valid postal code.")

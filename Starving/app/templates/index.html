@@ -1,40 +1,69 @@
 {% import "bootstrap_wtf.html" as wtf %}
 {%- extends "base.html" -%}
+
 {%- block content -%}
-<!-- Hero Section -->
+<!-- Greeting -->
 <section id="home" class="intro-section">
-  <div class="container">
+<div class="container">
     <div class="row align-items-center text-white">
-<!-- Intro Start -->
       <div class="col-md-6 intros text-start">
-        <h1 class="display-2">
-          <span class="display-2--intro">Feeling Hungry!?</span>
-          <span class="display-2--description lh-base">
-            Find the fastest restaurant in your area.
-          </span>
-        </h1>
+      <h1 class="display-2">
+      <span class="display-2--intro">Feeling Hungry!?</span>
+      <span class="display-2--description lh-base">
+      {% if above_search %}
+        {{ above_search }}
+      {% else %}
+          Find the fastest restaurant in your area.
+      {% endif %}
+      </span>
+      </h1>
 <!-- Search bar -->
-    <form class="d-flex form-control me-2 rounded-pill" method="post" onsubmit="syncPostcode()">
+<!-- Loader -->
+{% if current_user.is_anonymous %}
+<form class="d-flex form-control me-2 rounded-pill" method="post" onsubmit="showLoader(); syncPostcode();">
     {{ form.csrf_token() }}
     {{ form.postcode(id="hidden_postcode", type="hidden") }}
-
     <input id="visible_postcode" class="form-control me-2 rounded-pill" name="postcode" placeholder="Postcode" aria-label="Search">
-
-    <button type="submit" class="rounded-pill btn-rounded">Go!
+    <button id="submit-btn" type="submit" class="rounded-pill btn-rounded">Go!
+        <span id="loader" class="loader" style="display: none;"></span> <!-- Initially hidden -->
         <span><i class="fas fa-arrow-right"></i></span>
     </button>
+
 </form>
-<div class="text-danger mt-2 fw-bolder">
-    {% for error in form.postcode.errors %}
-       <span style="color: #ff0000;">{{ error }}</span>
-    {% endfor %}
-</div>
+{% else %}
+    <button id="submit-btn" type="button" class="rounded-pill btn-rounded"
+        onclick="showLoader(); window.location.href='{{ url_for('fastest_restaurants') }}';">
+        Search!
+        <span id="loader" class="loader" style="display: none;"></span> <!-- Initially hidden -->
+        <span><i class="fas fa-search"></i></span>
+    </button>
+{% endif %}
+
 <script>
-function syncPostcode() {
-    document.getElementById('hidden_postcode').value = document.getElementById('visible_postcode').value;
-}
+    function showLoader() {
+        const loader = document.getElementById("loader");
+        const submitBtn = document.getElementById("submit-btn");
+        const carousel = document.getElementById("carouselExampleAutoplaying"); // Select the carousel by its ID
+
+        loader.style.display = "inline-block"; // Show the loader
+        submitBtn.disabled = true; // Disable the button to prevent multiple clicks
+        {#if (carousel) {#}
+        {#    carousel.style.display = "none"; // Hide the carousel#}
+
+    }
+
+    function syncPostcode() {
+        document.getElementById('hidden_postcode').value = document.getElementById('visible_postcode').value;
+    }
 </script>
-<!-- Display Restaurants -->
+
+
+      <div class=" danger mt-2 ">
+        {% for error in form.postcode.errors %}
+           <span style="color: #ffffff;">{{ error }}<div class="fa fa-sad-cry"></div></span>
+        {% endfor %}
+     </div>
+<!-- Display Restaurants Section -->
       <table class="delivery-text lh-base mt-3 mb-5">
           {% if restaurants_times %}
           {% for item in restaurants_times %}
@@ -47,42 +76,30 @@ function syncPostcode() {
           {% endif %}
       </table>
       </div>
-<!-- Carousel -->
+<!-- Carousel Section-->
       <div class="col-md-6 intros text-endf">
             <div>
-{#                <span class="border-animation border-animation--border-1"></span>#}
-{#                <span class="border-animation border-animation--border-2"></span>#}
-{#                <span class="border-animation2 border-animation--border-1"></span>#}
-{#                <span class="border-animation2 border-animation--border-2"></span>#}
-{#                <span class="border-animation3 border-animation--border-1"></span>#}
-{#                <span class="border-animation3 border-animation--border-2"></span>#}
             </div>
         <div class="video-box">
             <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
               <div class="carousel-inner">
                 <div class="carousel-item active card-text-center">
-                  <img src="{{ url_for('static', filename= 'images/food/burger.jpg') }}" class="rounded-circle img-fluid">
+                    <img src="{{ url_for('static', filename= 'images/food/burger.jpg') }}" class="rounded-circle img-fluid">
                 </div>
                 <div class="carousel-item card-text-center">
-                  <img src="{{ url_for('static', filename= 'images/food/pizza.jpg') }}" class="rounded-circle img-fluid">
+                    <img src="{{ url_for('static', filename= 'images/food/pizza.jpg') }}" class="rounded-circle img-fluid">
                 </div>
                 <div class="carousel-item card-text-center">
-                  <img src="{{ url_for('static', filename= 'images/food/taco.jpg') }}"  class="rounded-circle img-fluid">
+                    <img src="{{ url_for('static', filename= 'images/food/taco.jpg') }}"  class="rounded-circle img-fluid">
                 </div>
               </div>
-{#              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">#}
-{#                <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
-{#                <span class="visually-hidden">Previous</span>#}
-{#              </button>#}
-{#              <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">#}
-{#                <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
-{#                <span class="visually-hidden">Next</span>#}
-{#              </button>#}
             </div>
             </div>
           </div>
         </div>
-      </div>
+</div>
+      <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css/loader.css') }}">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,160L48,176C96,192,192,224,288,208C384,192,480,128,576,133.3C672,139,768,213,864,202.7C960,192,1056,96,1152,74.7C1248,53,1344,107,1392,133.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
 </section>
+
 {%- endblock -%}

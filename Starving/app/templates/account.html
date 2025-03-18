@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="mt-5 pt-5">
-<div class="container mt-5 pt-5 text-center p-5 ">
+<section class="mt-5 pt-5 p-5">
+<div class="container mt-5 pt-5  p-5 ">
     <h1 class="fs-2 display-2--intro">Private</h1><br><br>
     <div class="fs-6" style="font-family: 'Poppins', sans-serif; font-size: 1.5rem;">
-    <p>Hello {{ current_user.username }}, this page is only available to logged in users.</p>
+    <p>Hello {{ current_user.username }}, <br>this page is only available to logged in users.</p>
 
-    <p>The email address we have recorded for you is: {{ current_user.email }}</p>
+    <p><div class="fw-bold">Username:</div> {{ current_user.username }}</p>
+        <p><div class="fw-bold">Email Address:</div>  {{ current_user.email }}</p>
+    <p><div class="fw-bold">Postal Code:</div>  {{ current_user.postcode }}</p>
 
     <a class="btn btn-primary" href="{{ url_for('change_email') }}">Change Email</a> <br><br>
     </div>

@@ -13,38 +13,49 @@ from app.gather_restaurants import gather_data
 @app.route('/', methods=['POST', 'GET'])
 def home():
     form = PostcodeForm()
+    above_search = None
+    if current_user.is_authenticated:
+        above_search = "Postcode: " + current_user.get_postcode()
+        print(current_user.get_postcode())
+    if error_message := request.args.get('error_message'):
+        above_search = error_message
+
     if form.validate_on_submit():
         postcode = form.postcode.data
         print("".join(postcode.strip().split(" ")), len("".join(postcode.strip().split(" "))))
         if len("".join(postcode.strip().split(" "))) >= 5:
-
-            return redirect(url_for('fastest_restaurants', postcode=postcode))
+            # current_user.set_postcode(postcode)
+            return redirect(url_for('fastest_restaurants', postcode=postcode, above_search=above_search))
         else:
-            form.postcode.errors = list(form.postcode.errors)
-            form.postcode.errors.append('Please enter a valid postcode.')
+            above_search = "Please enter a valid postcode."
             print("wrong postcode")
 
-
-    return render_template('index.html', form=form, restaurants_times=[], title="Starveto!")
+    return render_template('index.html', form=form, title="Starveto!", restaurants_times=[], above_search=above_search)
 
 @app.route('/fastest_restaurants', methods=['POST', 'GET'])
 def fastest_restaurants():
+    restaurants_times = []
     form = PostcodeForm()
-    postcode = request.args.get('postcode')
+    postcode = ""
+    if current_user.is_authenticated:
+        postcode = current_user.get_postcode()
+    else:
+        postcode = request.args.get('postcode')
+    # if not postcode:  # Handle case where postcode is None
+    #     flash('No postcode provided. Please enter a valid postcode.', 'danger')
+    #     return redirect(url_for('home'))
     try:
-        restaurants_times = gather_data(postcode)
         # restaurants_times = [{"McDonald's": 20.2}, {"WaitRose": 10}, {"Pizza Hut": 15.5}, {"Rudy's": 15.5}, {"Molly's": 4.00}]
+        restaurants_times = gather_data(postcode)
+        # print("after gathering data")
         for item in restaurants_times:
             for k, value in item.items():
                 item[k] = f"will deliver in about {int(value)} minutes"
-        quickest = restaurants_times[0]
-        restaurants_times = restaurants_times[1:]
-        # flash('Postcode entered successfully.', 'success')
-        print("correct postcode")
-    except TimeoutException:
-        form.postcode.errors = list(form.postcode.errors)
-        form.postcode.errors.append('Impossible to gather data right now. Please try again later.')
-    return render_template('fastest_restaurants.html', restaurants_times=restaurants_times, title="Starveto!", quickest=quickest, postcode=postcode)
+    except Exception as e:
+        error_message = f"Unable to gather data right now. Please try again. "
+        return redirect(url_for('home', error_message=error_message))
+
+    return render_template('fastest_restaurants.html', restaurants_times=restaurants_times, title="Starveto!", postcode=postcode)
 
 @app.route("/account")
 @login_required
@@ -65,6 +76,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or urlsplit(next_page).netloc != '':
+
             next_page = url_for('home')
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
@@ -97,10 +109,11 @@ def register():
         return redirect(url_for('home'))
     form = RegisterForm()
     if form.validate_on_submit():
-        new_user = User(username=form.username.data, email=form.email.data)
+        new_user = User(username=form.username.data, email=form.email.data, postcode=form.postal.data)
         new_user.set_password(form.password.data)
         db.session.add(new_user)
         db.session.commit()
+        login_user(new_user)
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 

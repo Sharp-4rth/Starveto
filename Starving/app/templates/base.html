@@ -30,8 +30,10 @@
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                {% if current_user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('fastest_restaurants') }}">Fastest Restaurants</a></li>
+                {% endif %}
                 {% if current_user.is_anonymous %}
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{{ url_for('login') }}">Login</a>
@@ -56,19 +58,19 @@
     </div>
 </nav>
 <div>
+{#    <div class="container mt-3 position-absolute pt-5 mt-5 top-60 start-50 translate-middle-x z-3 bg-light p-3 rounded">#}
+{#        {% with messages = get_flashed_messages(with_categories=true) %}#}
+{#        {% if messages %}#}
+{#        {% for category, message in messages %}#}
+{#        <div class="alert alert-heading-{{ category }}" role="alert">#}
+{#            {{ message }}#}
+{#        </div>#}
+{#        {% endfor %}#}
+{#        {% endif %}#}
+{#        {% endwith %}#}
+{#    </div>#}
     {% block content %}
     {% endblock %}
-</div>
-<div class="container mt-3">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="alert alert-{{ category }}" role="alert">
-        {{ message }}
-    </div>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
 </div>
 <!-- ///////////////////////////////////////////////////////////////////////////////////////////
                            START SECTION 9 - THE FOOTER
@@ -91,26 +93,26 @@
       </div>
     </div>
   </div>
-  <!-- START THE CONTENT FOR THE CAMPANY INFO -->
-  <div class="container mt-5">
-    <div class="row text-white justify-content-center   mt-3 pb-3">
-      <div class="col-12 col-sm-6 col-lg-6 mx-auto">
-        <h5 class="text-capitalize fw-bold">Starveto!</h5>
-        <hr class="bg-white d-inline-block mb-4" style="width: 60px; height: 2px;">
-        <p class="lh-lg">
-          Search for the fastest<br> restaurant in your area.
-        </p>
-      </div>
-      <div class="col-12 col-sm-6 col-lg-2 mb-4 mx-auto">
-        <h5 class="text-capitalize fw-bold">useful links</h5>
-        <hr class="bg-white d-inline-block mb-4" style="width: 60px; height: 2px;">
-        <ul class="list-inline campany-list">
-          <li><a href="#"> Your Account</a></li>
-          <li><a href="#">create an account</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
+{#  <!-- START THE CONTENT FOR THE CAMPANY INFO -->#}
+{#  <div class="container mt-5">#}
+{#    <div class="row text-white justify-content-center   mt-3 pb-3">#}
+{#      <div class="col-12 col-sm-6 col-lg-6 mx-auto">#}
+{#        <h5 class="text-capitalize fw-bold">Starveto!</h5>#}
+{#        <hr class="bg-white d-inline-block mb-4" style="width: 60px; height: 2px;">#}
+{#        <p class="lh-lg">#}
+{#          Search for the fastest<br> restaurant in your area.#}
+{#        </p>#}
+{#      </div>#}
+{#      <div class="col-12 col-sm-6 col-lg-2 mb-4 mx-auto">#}
+{#        <h5 class="text-capitalize fw-bold">useful links</h5>#}
+{#        <hr class="bg-white d-inline-block mb-4" style="width: 60px; height: 2px;">#}
+{#        <ul class="list-inline campany-list">#}
+{#          <li><a href="#"> Your Account</a></li>#}
+{#          <li><a href="#">create an account</a></li>#}
+{#        </ul>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
 
   <!-- START THE COPYRIGHT INFO  -->
   <div class="footer-bottom pt-5 pb-5">
@@ -118,7 +120,7 @@
       <div class="row text-center text-white">
         <div class="col-12">
           <div class="footer-bottom__copyright">
-            &COPY; Copyright 2025 <a href="#">Starveto!</a> | Created by <a href="https://github.com/Sharp-4rth" target="_blank">Leonidas</a>
+            &COPY; Copyright 2025 <a href="#">Starveto!</a> | Created by <a href="https://github.com/Sharp-4rth" target="_blank">Leonidas Theodoropoulos</a>
           </div>
         </div>
       </div>

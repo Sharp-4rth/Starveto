@@ -1,27 +1,64 @@
 {% extends 'base.html' %}
 {% import "bootstrap_wtf.html" as wtf %}
+
 {% block content %}
-{#    <div class="fs-1 mt-5 pt-5">#}
-{#        Fastest Restaurants:#}
+<div class="pt-4 mt-5"></div>
+<section id="contact" class=" pt-5 mt-5">
+<div class="pe-5 ps-5">
+<div class="row text-center">
+  <h1 class=" fw-bold text-capitalize">Fastest Restaurants</h1>
+  <div class="heading-line line"></div>
+  <p class="lh-lg pb-5">
+    Restaurants that deliver food to your doorstep in the shortest time.
+  </p>
+{#</div>#}
+{##}
+{#    <div class="row text-white">#}
+{#      <div class="col-12 col-lg-6 gradient shadow p-3">#}
+{#        <div class="cta-info w-100">#}
+{#            {% for name, time in restaurants_times[0].items() %}#}
+{#          <h4 class="display-4 fw-bold fas fa-crown">{{ name }}!<br> {{ time }}</h4>#}
+{#          <p class="lh-lg">#}
+{#            Fastest Restaurant in your area ^#}
+{#          </p>#}
+{#        </div>#}
+{#          {% endfor %}#}
+{#      </div>#}
+{#      <div class="col-12 col-lg-6 bg-white shadow p-3">#}
+{#        <div class="pb-2">#}
+{#        {% for restaurant in restaurants_times[1:] %}#}
+{#            {% for name, time in restaurant.items() %}#}
+{#          <p class="container display-3--title mb-5">{{ name }}</p>#}
+{#                <p class="fas fa-shipping-fast">{{ time }}</p>#}
+{#          {% endfor %}#}
+{#          {% endfor %}#}
+{#        </div>#}
+{#      </div>#}
 {#    </div>#}
-    <div class="pt-5 mt-2 ">
-    <section class="container pt-5 mt-5 ">
-    <h1 class="fs-2 display-2--intro pt-5 p-5 ">Fastest Restaurants</h1><br><br>
-    <div class="row text-center">
-    {% for name, time in quickest.items() %}
+{#  </div>#}
+{#</section>#}
+{#    <div class="pt-5 mt-2 ">#}
+{#    <section class="container pt-5 mt-5 ">#}
+{#    <div class="container">#}
+{#      <div class="row text-center">#}
+{#        <h4 class="fw-bold  mb-3">Fastest Restaurants</h4>#}
+{#        <div class="header"></div>#}
+{#      </div>#}
+{#    </div><br>#}
+    <div class="row text-center ">
+    {% for name, time in restaurants_times[0].items() %}
     <div class="col-md-12 mb-6 ">
-        <div class="card shadow-sm  p-3 btn-rounded rounded-pill">
-            <p class="text-center fs-2 display-2--intro main-col "> &nbsp; {{ name }}</p>
-            <p class="text-center fs-6 display-2--intro mt-1 " > &nbsp; is the fastest </p><br>
-            <p class=" display-2--description mt-1"><i class="fas fa-crown other-col"></i>&nbsp;{{ time }}</p>
+         <div class="card shadow-sm p-3 btn-roundedOther rounded-pill ">
+            <p class="text-center fs-2 display-2--intro mt-2  ">{{ name }} !&nbsp;</p>
+            <p class="display-2--description mt-1 fas fa-crown other-col">&nbsp;{{ time }}</p>
         </div>
         {% endfor %}
     <br>
     </div>
-        {% for restaurant in restaurants_times %}
+        {% for restaurant in restaurants_times[1:] %}
             {% for name, time in restaurant.items() %}
                 <div class="col-sm-12  mb-6 mb-2 pt-3 p-4 ">
-                    <div class="card shadow-sm p-3 btn-rounded rounded-pill ">
+                    <div class="card shadow-sm p-3 btn-roundedOther rounded-pill ">
                         <p class="text-center fs-2 display-2--intro mt-2  ">{{ name }} !&nbsp;</p>
                         <p class="display-2--description mt-1 fas fa-shipping-fast other-col">&nbsp;{{ time }}</p>
                     </div>
