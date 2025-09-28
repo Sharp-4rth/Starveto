@@ -1,0 +1,5 @@
+.sass-cache
+app/data/data.sqlite
+app/static/node_modules/
+.idea/
+dist/

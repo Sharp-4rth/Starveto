@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Starveto!</title>
-
     <!-- Link to external stylesheets -->
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/fontawesome.css') }}">
@@ -16,12 +15,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-
 <!-- Navbar Section -->
 <nav class="navbar navbar-expand-lg navbar-dark menu shadow fixed-top">
     <div class="container">
         <a class="navbar-brand fw-bolder fw mt-3 mb-3" href="{{ url_for('home') }}" style="font-family: 'Poppins', sans-serif; font-size: 1.5rem;">Starveto!</a>
-{#            <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="logo image">#}
         </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -58,26 +55,11 @@
     </div>
 </nav>
 <div>
-{#    <div class="container mt-3 position-absolute pt-5 mt-5 top-60 start-50 translate-middle-x z-3 bg-light p-3 rounded">#}
-{#        {% with messages = get_flashed_messages(with_categories=true) %}#}
-{#        {% if messages %}#}
-{#        {% for category, message in messages %}#}
-{#        <div class="alert alert-heading-{{ category }}" role="alert">#}
-{#            {{ message }}#}
-{#        </div>#}
-{#        {% endfor %}#}
-{#        {% endif %}#}
-{#        {% endwith %}#}
-{#    </div>#}
     {% block content %}
     {% endblock %}
 </div>
-<!-- ///////////////////////////////////////////////////////////////////////////////////////////
-                           START SECTION 9 - THE FOOTER
-///////////////////////////////////////////////////////////////////////////////////////////////-->
+<!-- Footer -->
 <footer class="footer">
-
-
   <!-- START THE SOCIAL MEDIA CONTENT  -->
   <div class="footer-sm" style="background-color: #212121;">
     <div class="container">
@@ -93,27 +75,6 @@
       </div>
     </div>
   </div>
-{#  <!-- START THE CONTENT FOR THE CAMPANY INFO -->#}
-{#  <div class="container mt-5">#}
-{#    <div class="row text-white justify-content-center   mt-3 pb-3">#}
-{#      <div class="col-12 col-sm-6 col-lg-6 mx-auto">#}
-{#        <h5 class="text-capitalize fw-bold">Starveto!</h5>#}
-{#        <hr class="bg-white d-inline-block mb-4" style="width: 60px; height: 2px;">#}
-{#        <p class="lh-lg">#}
-{#          Search for the fastest<br> restaurant in your area.#}
-{#        </p>#}
-{#      </div>#}
-{#      <div class="col-12 col-sm-6 col-lg-2 mb-4 mx-auto">#}
-{#        <h5 class="text-capitalize fw-bold">useful links</h5>#}
-{#        <hr class="bg-white d-inline-block mb-4" style="width: 60px; height: 2px;">#}
-{#        <ul class="list-inline campany-list">#}
-{#          <li><a href="#"> Your Account</a></li>#}
-{#          <li><a href="#">create an account</a></li>#}
-{#        </ul>#}
-{#      </div>#}
-{#    </div>#}
-{#  </div>#}
-
   <!-- START THE COPYRIGHT INFO  -->
   <div class="footer-bottom pt-5 pb-5">
     <div class="container">

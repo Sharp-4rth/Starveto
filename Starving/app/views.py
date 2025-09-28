@@ -14,9 +14,13 @@ from app.gather_restaurants import gather_data
 def home():
     form = PostcodeForm()
     above_search = None
+
+    # If the user is logged in, show their saved postcode above the form.
     if current_user.is_authenticated:
         above_search = "Postcode: " + current_user.get_postcode()
         print(current_user.get_postcode())
+
+    # If redirected here due to an error, show the error message instead.
     if error_message := request.args.get('error_message'):
         above_search = error_message
 
@@ -64,9 +68,12 @@ def account():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # If the user is already logged in, redirect them to the homepage.
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
+
+    # When the login form is submitted, validate the credentials.
     if form.validate_on_submit():
         user = db.session.scalar(
             sa.select(User).where(User.username == form.username.data))
@@ -121,7 +128,6 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('home'))
-
 
 # Error handler for 403 Forbidden
 @app.errorhandler(403)
