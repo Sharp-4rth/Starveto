@@ -32,8 +32,17 @@ For production, you should override it by setting a `SECRET_KEY` environment var
    
 2. Install dependencies:
     ```bash
+   === conda ===
     conda env create -f environment.yml
+    conda activate starveto_app
+   
+   === pip only dependencies ===
+   pip install flask_login, fake_useragent, undetected_chromedriver, pandas, numpy, seaborn, matplotlib
    ```
+
+3. Run:
+    ```bash
+    flask run
 ---
 
 ## Project structure
